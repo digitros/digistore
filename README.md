@@ -45,6 +45,13 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Docker
+
+```bash
+# up
+$ docker-compose up -d mongo
+```
+
 ## Test
 
 ```bash
