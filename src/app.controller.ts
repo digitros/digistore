@@ -14,4 +14,9 @@ export class AppController {
   newEndpoint(): string {
     return 'This is a new endpoint';
   }
+
+  @Get('tasks')
+  getTasks() {
+    return this.appService.getTasks();
+  }
 }
