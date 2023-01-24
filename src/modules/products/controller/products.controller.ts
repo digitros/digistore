@@ -12,7 +12,7 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { ProductsService } from '../service/products.service';
+import { ProductsService } from '../services/products.service';
 import { ParseIntPipe } from 'src/common/parse-int/parse-int.pipe';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 

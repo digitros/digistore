@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { User } from '../entity/user.entity';
 import { Order } from '../entity/order.entity';
-import { ProductsService } from 'src/modules/products/service/products.service';
+import { ProductsService } from 'src/modules/products/services/products.service';
 import { ConfigService } from '@nestjs/config';
 import { CreateUserDto } from '../dtos/user.dto';
 import { v4 as uuidv4 } from 'uuid';
