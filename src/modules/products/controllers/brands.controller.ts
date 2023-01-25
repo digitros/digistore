@@ -12,6 +12,7 @@ import { ApiTags } from '@nestjs/swagger';
 
 import { BrandsService } from '../services/brands.service';
 import { CreateBrandDto, UpdateBrandDto } from '../dtos/brand.dto';
+import { MongoIdPipe } from 'src/common/mongo-id/mongo-id.pipe';
 
 @ApiTags('brands')
 @Controller('brands')
@@ -24,7 +25,7 @@ export class BrandsController {
   }
 
   @Get(':id')
-  get(@Param('id') id: string) {
+  get(@Param('id', MongoIdPipe) id: string) {
     return this.brandsService.findOne(id);
   }
 

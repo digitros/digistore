@@ -12,6 +12,7 @@ import {
 import { CustomersService } from '../services/customers.service';
 import { CreateCustomerDto, UpdateCustomerDto } from '../dtos/customer.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { MongoIdPipe } from 'src/common/mongo-id/mongo-id.pipe';
 
 @ApiTags('customers')
 @Controller('customers')
@@ -24,7 +25,7 @@ export class CustomersController {
   }
 
   @Get(':id')
-  get(@Param('id') id: string) {
+  get(@Param('id', MongoIdPipe) id: string) {
     return this.customersService.findOne(id);
   }
 

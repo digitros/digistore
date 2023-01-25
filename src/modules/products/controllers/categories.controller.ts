@@ -12,6 +12,7 @@ import {
 import { CategoriesService } from '../services/categories.service';
 import { CreateCategoryDto, UpdateCategoryDto } from '../dtos/category.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { MongoIdPipe } from 'src/common/mongo-id/mongo-id.pipe';
 
 @ApiTags('categories')
 @Controller('categories')
@@ -24,7 +25,7 @@ export class CategoriesController {
   }
 
   @Get(':id')
-  get(@Param('id') id: string) {
+  get(@Param('id', MongoIdPipe) id: string) {
     return this.categoriesService.findOne(id);
   }
 
