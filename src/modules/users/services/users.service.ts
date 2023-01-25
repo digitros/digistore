@@ -17,15 +17,15 @@ export class UsersService {
     @InjectModel(User.name) private userModel: Model<User>,
   ) {}
 
-  findAll() {
+  async findAll() {
     const apiKey = this.configService.get('API_KEY');
     const dbName = this.configService.get('DATABASE_NAME');
     console.log(apiKey, dbName);
-    return this.userModel.find().exec();
+    return await this.userModel.find().exec();
   }
 
-  findOne(id: string) {
-    const user = this.userModel.findById(id);
+  async findOne(id: string) {
+    const user = await this.userModel.findById(id);
     if (!user) {
       throw new NotFoundException(`User #${id} not found`);
     }

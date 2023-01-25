@@ -11,12 +11,12 @@ export class CustomersService {
     @InjectModel(Customer.name) private customerModel: Model<Customer>,
   ) {}
 
-  findAll() {
-    return this.customerModel.find().exec();
+  async findAll() {
+    return await this.customerModel.find().exec();
   }
 
-  findOne(id: string) {
-    const customer = this.customerModel.findById(id);
+  async findOne(id: string) {
+    const customer = await this.customerModel.findById(id);
     if (!customer) {
       throw new NotFoundException(`Customer #${id} not found`);
     }

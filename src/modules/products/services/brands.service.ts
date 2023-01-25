@@ -9,12 +9,12 @@ import { Model } from 'mongoose';
 export class BrandsService {
   constructor(@InjectModel(Brand.name) private brandModel: Model<Brand>) {}
 
-  findAll() {
-    return this.brandModel.find().exec();
+  async findAll() {
+    return await this.brandModel.find().exec();
   }
 
-  findOne(id: string) {
-    const product = this.brandModel.findById(id);
+  async findOne(id: string) {
+    const product = await this.brandModel.findById(id);
     if (!product) {
       throw new NotFoundException(`Brand #${id} not found`);
     }

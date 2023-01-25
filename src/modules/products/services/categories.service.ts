@@ -12,12 +12,12 @@ export class CategoriesService {
     @InjectModel(Category.name) private categoryModel: Model<Category>,
   ) {}
 
-  findAll() {
-    return this.categoryModel.find().exec();
+  async findAll() {
+    return await this.categoryModel.find().exec();
   }
 
-  findOne(id: string) {
-    const category = this.categoryModel.findById(id);
+  async findOne(id: string) {
+    const category = await this.categoryModel.findById(id);
     if (!category) {
       throw new NotFoundException(`Category #${id} not found`);
     }
