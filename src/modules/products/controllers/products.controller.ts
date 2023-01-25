@@ -7,7 +7,6 @@ import {
   HttpCode,
   HttpStatus,
   Param,
-  // ParseIntPipe,
   Post,
   Put,
   Query,
@@ -28,50 +27,30 @@ export class ProductsController {
     @Query('offset', new ParseIntPipe(false)) offset = 0,
     @Query('brand') brand: string,
   ) {
-    // return {
-    //   message: `Products: limit => ${limit}, offset => ${offset}, brand => ${brand}`,
-    // };
     return this.productsService.findAll();
   }
 
   @Get(':productId')
   @HttpCode(HttpStatus.ACCEPTED)
   getOne(@Param('productId') productId: string) {
-    // response.status(200).send({
-    //   message: `Product ${productId} retrieved`,
-    // });
-    // return {
-    //   message: `Product ${productId} retrieved`,
-    // };
     return this.productsService.findOne(productId);
   }
 
-  // @Post()
-  // create(@Body() payload: CreateProductDto) {
-  //   // return {
-  //   //   message: 'Product created',
-  //   //   payload,
-  //   // };
-  //   return this.productsService.create(payload);
-  // }
+  @Post()
+  create(@Body() payload: CreateProductDto) {
+    return this.productsService.create(payload);
+  }
 
-  // @Put(':productId')
-  // update(
-  //   @Param('productId') productId: string,
-  //   @Body() payload: UpdateProductDto,
-  // ) {
-  //   // return {
-  //   //   message: `Product ${productId} updated`,
-  //   //   payload,
-  //   // };
-  //   return this.productsService.update(productId, payload);
-  // }
+  @Put(':productId')
+  update(
+    @Param('productId') productId: string,
+    @Body() payload: UpdateProductDto,
+  ) {
+    return this.productsService.update(productId, payload);
+  }
 
-  // @Delete(':productId')
-  // delete(@Param('productId') productId: string) {
-  //   // return {
-  //   //   message: `Product ${productId} deleted`,
-  //   // };
-  //   return this.productsService.delete(productId);
-  // }
+  @Delete(':productId')
+  delete(@Param('productId') productId: string) {
+    return this.productsService.delete(productId);
+  }
 }

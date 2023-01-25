@@ -23,36 +23,27 @@ export class ProductsService {
     return product;
   }
 
-  // create(payload: CreateProductDto) {
-  //   const newProduct = {
-  //     id: uuidv4(4),
-  //     ...payload,
-  //   };
-  //   this.products.push(newProduct);
-  //   return newProduct;
-  // }
+  async create(data: CreateProductDto) {
+    const newProduct = new this.productModel(data);
+    return await newProduct.save();
+  }
 
-  // update(id: string, payload: UpdateProductDto) {
-  //   const product = this.findOne(id);
-  //   if (product) {
-  //     const index = this.products.findIndex((item) => item.id === id);
-  //     this.products[index] = {
-  //       ...product,
-  //       ...payload,
-  //     };
-  //     return this.products[index];
-  //   }
-  //   return null;
-  // }
+  async update(id: string, changes: UpdateProductDto) {
+    try {
+      const product = await this.productModel
+        .findByIdAndUpdate(id, { $set: changes }, { new: true })
+        .exec();
+      return product;
+    } catch (err) {
+      throw new NotFoundException(`Product ${id} not found`);
+    }
+  }
 
-  // delete(id: string) {
-  //   const product = this.findOne(id);
-  //   if (product) {
-  //     this.products = this.products.filter((item) => item.id !== id);
-  //     return {
-  //       message: `Product ${id} deleted`,
-  //     };
-  //   }
-  //   return null;
-  // }
+  async delete(id: string) {
+    try {
+      await this.productModel.findByIdAndDelete(id).exec();
+    } catch (err) {
+      throw new NotFoundException(`Product ${id} not found`);
+    }
+  }
 }
