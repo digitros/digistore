@@ -7,10 +7,15 @@ import {
   Put,
   Delete,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 
 import { CustomersService } from '../services/customers.service';
-import { CreateCustomerDto, UpdateCustomerDto } from '../dtos/customer.dto';
+import {
+  CreateCustomerDto,
+  FilterCustomersDto,
+  UpdateCustomerDto,
+} from '../dtos/customer.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { MongoIdPipe } from 'src/common/mongo-id/mongo-id.pipe';
 
@@ -20,8 +25,8 @@ export class CustomersController {
   constructor(private customersService: CustomersService) {}
 
   @Get()
-  findAll() {
-    return this.customersService.findAll();
+  findAll(@Query() params?: FilterCustomersDto) {
+    return this.customersService.findAll(params);
   }
 
   @Get(':id')

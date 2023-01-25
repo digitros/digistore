@@ -1,4 +1,8 @@
-import { CreateProductDto, UpdateProductDto } from '../dtos/poducts.dto';
+import {
+  CreateProductDto,
+  FilterProductsDto,
+  UpdateProductDto,
+} from '../dtos/poducts.dto';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Product } from '../entities/product.entity';
 import { v4 as uuidv4 } from 'uuid';
@@ -11,7 +15,11 @@ export class ProductsService {
     @InjectModel(Product.name) private productModel: Model<Product>,
   ) {}
 
-  async findAll() {
+  async findAll(params?: FilterProductsDto) {
+    if (params) {
+      const { limit = 5, offset = 0 } = params;
+      return this.productModel.find().skip(offset).limit(limit).exec();
+    }
     return await this.productModel.find().exec();
   }
 

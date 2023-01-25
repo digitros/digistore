@@ -1,4 +1,8 @@
-import { CreateProductDto, UpdateProductDto } from '../dtos/poducts.dto';
+import {
+  CreateProductDto,
+  FilterProductsDto,
+  UpdateProductDto,
+} from '../dtos/poducts.dto';
 import {
   Body,
   Controller,
@@ -23,12 +27,8 @@ export class ProductsController {
 
   @Get()
   @ApiOperation({ summary: 'List of products' })
-  getProducts(
-    @Query('limit', new ParseIntPipe(false)) limit = 100,
-    @Query('offset', new ParseIntPipe(false)) offset = 0,
-    @Query('brand') brand: string,
-  ) {
-    return this.productsService.findAll();
+  getProducts(@Query() params?: FilterProductsDto) {
+    return this.productsService.findAll(params);
   }
 
   @Get(':productId')

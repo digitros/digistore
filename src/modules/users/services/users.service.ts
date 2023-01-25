@@ -1,3 +1,4 @@
+import { FilterUsersDto } from './../dtos/user.dto';
 import { Injectable, NotFoundException, Inject } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
@@ -17,10 +18,14 @@ export class UsersService {
     @InjectModel(User.name) private userModel: Model<User>,
   ) {}
 
-  async findAll() {
+  async findAll(params?: FilterUsersDto) {
     const apiKey = this.configService.get('API_KEY');
     const dbName = this.configService.get('DATABASE_NAME');
     console.log(apiKey, dbName);
+    if (params) {
+      const { limit = 5, offset = 0 } = params;
+      return this.userModel.find().skip(offset).limit(limit).exec();
+    }
     return await this.userModel.find().exec();
   }
 

@@ -9,7 +9,11 @@ import { Model } from 'mongoose';
 export class BrandsService {
   constructor(@InjectModel(Brand.name) private brandModel: Model<Brand>) {}
 
-  async findAll() {
+  async findAll(params?: any) {
+    if (params) {
+      const { limit = 5, offset = 0 } = params;
+      return this.brandModel.find().skip(offset).limit(limit).exec();
+    }
     return await this.brandModel.find().exec();
   }
 

@@ -7,10 +7,15 @@ import {
   Put,
   Delete,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 
 import { CategoriesService } from '../services/categories.service';
-import { CreateCategoryDto, UpdateCategoryDto } from '../dtos/category.dto';
+import {
+  CreateCategoryDto,
+  FilterCategoriesDto,
+  UpdateCategoryDto,
+} from '../dtos/category.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { MongoIdPipe } from 'src/common/mongo-id/mongo-id.pipe';
 
@@ -20,8 +25,8 @@ export class CategoriesController {
   constructor(private categoriesService: CategoriesService) {}
 
   @Get()
-  findAll() {
-    return this.categoriesService.findAll();
+  findAll(@Query() params?: FilterCategoriesDto) {
+    return this.categoriesService.findAll(params);
   }
 
   @Get(':id')
