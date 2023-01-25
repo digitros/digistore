@@ -7,7 +7,7 @@ import { CustomersService } from '../services/customers.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from '../entities/user.entity';
 import { Order, OrderSchema } from '../entities/order.entity';
-import { Customer } from '../entities/customer.entity';
+import { Customer, CustomerSchema } from '../entities/customer.entity';
 
 @Module({
   imports: [
@@ -23,7 +23,7 @@ import { Customer } from '../entities/customer.entity';
       },
       {
         name: Customer.name,
-        schema: UserSchema,
+        schema: CustomerSchema,
       },
     ]),
   ],
