@@ -46,32 +46,32 @@ export class ProductsController {
     return this.productsService.findOne(productId);
   }
 
-  @Post()
-  create(@Body() payload: CreateProductDto) {
-    // return {
-    //   message: 'Product created',
-    //   payload,
-    // };
-    return this.productsService.create(payload);
-  }
+  // @Post()
+  // create(@Body() payload: CreateProductDto) {
+  //   // return {
+  //   //   message: 'Product created',
+  //   //   payload,
+  //   // };
+  //   return this.productsService.create(payload);
+  // }
 
-  @Put(':productId')
-  update(
-    @Param('productId') productId: string,
-    @Body() payload: UpdateProductDto,
-  ) {
-    // return {
-    //   message: `Product ${productId} updated`,
-    //   payload,
-    // };
-    return this.productsService.update(productId, payload);
-  }
+  // @Put(':productId')
+  // update(
+  //   @Param('productId') productId: string,
+  //   @Body() payload: UpdateProductDto,
+  // ) {
+  //   // return {
+  //   //   message: `Product ${productId} updated`,
+  //   //   payload,
+  //   // };
+  //   return this.productsService.update(productId, payload);
+  // }
 
-  @Delete(':productId')
-  delete(@Param('productId') productId: string) {
-    // return {
-    //   message: `Product ${productId} deleted`,
-    // };
-    return this.productsService.delete(productId);
-  }
+  // @Delete(':productId')
+  // delete(@Param('productId') productId: string) {
+  //   // return {
+  //   //   message: `Product ${productId} deleted`,
+  //   // };
+  //   return this.productsService.delete(productId);
+  // }
 }

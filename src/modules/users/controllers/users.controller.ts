@@ -24,30 +24,30 @@ export class UsersController {
   }
 
   @Get(':id')
-  get(@Param('id', ParseIntPipe) id: number) {
+  get(@Param('id') id: string) {
     return this.usersService.findOne(id);
   }
 
   @Get(':id/orders')
-  getOrders(@Param('id', ParseIntPipe) id: number) {
+  getOrders(@Param('id') id: string) {
     return this.usersService.getOrderByUser(id);
   }
 
-  @Post()
-  create(@Body() payload: CreateUserDto) {
-    return this.usersService.create(payload);
-  }
+  // @Post()
+  // create(@Body() payload: CreateUserDto) {
+  //   return this.usersService.create(payload);
+  // }
 
-  @Put(':id')
-  update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() payload: UpdateUserDto,
-  ) {
-    return this.usersService.update(id, payload);
-  }
+  // @Put(':id')
+  // update(
+  //   @Param('id', ParseIntPipe) id: number,
+  //   @Body() payload: UpdateUserDto,
+  // ) {
+  //   return this.usersService.update(id, payload);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id', ParseIntPipe) id: number) {
+  //   return this.usersService.remove(+id);
+  // }
 }
