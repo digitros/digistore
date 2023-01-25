@@ -25,9 +25,14 @@ export class ProductsService {
           $lte: maxPrice,
         };
       }
-      return this.productModel.find(filters).skip(offset).limit(limit).exec();
+      return this.productModel
+        .find(filters)
+        .populate('brand')
+        .skip(offset)
+        .limit(limit)
+        .exec();
     }
-    return await this.productModel.find().exec();
+    return await this.productModel.find().populate('brand').exec();
   }
 
   async findOne(id: string) {
