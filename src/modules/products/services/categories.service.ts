@@ -32,32 +32,27 @@ export class CategoriesService {
     return category;
   }
 
-  // create(data: CreateCategoryDto) {
-  //   this.counterId = this.counterId + 1;
-  //   const newCategory = {
-  //     id: this.counterId,
-  //     ...data,
-  //   };
-  //   this.categories.push(newCategory);
-  //   return newCategory;
-  // }
+  async create(data: CreateCategoryDto) {
+    const newCategory = new this.categoryModel(data);
+    return await newCategory.save();
+  }
 
-  // update(id: number, changes: UpdateCategoryDto) {
-  //   const category = this.findOne(id);
-  //   const index = this.categories.findIndex((item) => item.id === id);
-  //   this.categories[index] = {
-  //     ...category,
-  //     ...changes,
-  //   };
-  //   return this.categories[index];
-  // }
+  async update(id: number, changes: UpdateCategoryDto) {
+    try {
+      const category = await this.categoryModel
+        .findByIdAndUpdate(id, { $set: changes }, { new: true })
+        .exec();
+      return category;
+    } catch (err) {
+      throw new NotFoundException(`Category #${id} not found`);
+    }
+  }
 
-  // remove(id: number) {
-  //   const index = this.categories.findIndex((item) => item.id === id);
-  //   if (index === -1) {
-  //     throw new NotFoundException(`Category #${id} not found`);
-  //   }
-  //   this.categories.splice(index, 1);
-  //   return true;
-  // }
+  remove(id: number) {
+    try {
+      return this.categoryModel.findByIdAndDelete(id);
+    } catch (err) {
+      throw new NotFoundException(`Category #${id} not found`);
+    }
+  }
 }

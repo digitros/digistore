@@ -31,32 +31,27 @@ export class CustomersService {
     return customer;
   }
 
-  // create(data: CreateCustomerDto) {
-  //   this.counterId = this.counterId + 1;
-  //   const newCustomer = {
-  //     id: this.counterId,
-  //     ...data,
-  //   };
-  //   this.customers.push(newCustomer);
-  //   return newCustomer;
-  // }
+  async create(data: CreateCustomerDto) {
+    const newCustomer = new this.customerModel(data);
+    return await newCustomer.save();
+  }
 
-  // update(id: number, changes: UpdateCustomerDto) {
-  //   const customer = this.findOne(id);
-  //   const index = this.customers.findIndex((item) => item.id === id);
-  //   this.customers[index] = {
-  //     ...customer,
-  //     ...changes,
-  //   };
-  //   return this.customers[index];
-  // }
+  async update(id: number, changes: UpdateCustomerDto) {
+    try {
+      const product = await this.customerModel
+        .findByIdAndUpdate(id, { $set: changes }, { new: true })
+        .exec();
+      return product;
+    } catch (err) {
+      throw new NotFoundException(`Customer #${id} not found`);
+    }
+  }
 
-  // remove(id: number) {
-  //   const index = this.customers.findIndex((item) => item.id === id);
-  //   if (index === -1) {
-  //     throw new NotFoundException(`Customer #${id} not found`);
-  //   }
-  //   this.customers.splice(index, 1);
-  //   return true;
-  // }
+  async remove(id: number) {
+    try {
+      await this.customerModel.findByIdAndDelete(id).exec();
+    } catch (err) {
+      throw new NotFoundException(`Customer #${id} not found`);
+    }
+  }
 }

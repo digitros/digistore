@@ -37,34 +37,31 @@ export class UsersService {
     return user;
   }
 
-  // create(data: CreateUserDto) {
-  //   this.counterId = this.counterId + 1;
-  //   const newUser = {
-  //     id: this.counterId,
-  //     ...data,
-  //   };
-  //   this.users.push(newUser);
-  //   return newUser;
-  // }
+  async create(data: CreateUserDto) {
+    const newUser = new this.userModel(data);
+    return await newUser.save();
+  }
 
-  // update(id: number, changes: UpdateUserDto) {
-  //   const user = this.findOne(id);
-  //   const index = this.users.findIndex((item) => item.id === id);
-  //   this.users[index] = {
-  //     ...user,
-  //     ...changes,
-  //   };
-  //   return this.users[index];
-  // }
+  async update(id: number, changes: UpdateUserDto) {
+    try {
+      const user = await this.userModel.findByIdAndUpdate(
+        id,
+        { $set: changes },
+        { new: true },
+      );
+      return user;
+    } catch (err) {
+      throw new NotFoundException(`User #${id} not found`);
+    }
+  }
 
-  // remove(id: number) {
-  //   const index = this.users.findIndex((item) => item.id === id);
-  //   if (index === -1) {
-  //     throw new NotFoundException(`User #${id} not found`);
-  //   }
-  //   this.users.splice(index, 1);
-  //   return true;
-  // }
+  async remove(id: number) {
+    try {
+      await this.userModel.findByIdAndDelete(id).exec();
+    } catch (err) {
+      throw new NotFoundException(`User #${id} not found`);
+    }
+  }
 
   async getOrderByUser(id: string) {
     const user = this.findOne(id);
