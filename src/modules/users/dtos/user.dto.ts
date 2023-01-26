@@ -6,8 +6,11 @@ import {
   IsPositive,
   IsOptional,
   Min,
+  IsArray,
 } from 'class-validator';
 import { PartialType, ApiProperty } from '@nestjs/swagger';
+import { isArray } from 'util';
+import { OmitType } from '@nestjs/mapped-types';
 
 export class CreateUserDto {
   @IsString()
@@ -22,9 +25,15 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   readonly role: string;
+
+  @IsArray()
+  @IsNotEmpty()
+  readonly products: string[];
 }
 
-export class UpdateUserDto extends PartialType(CreateUserDto) {}
+export class UpdateUserDto extends PartialType(
+  OmitType(CreateUserDto, ['products']),
+) {}
 
 export class FilterUsersDto {
   @IsOptional()

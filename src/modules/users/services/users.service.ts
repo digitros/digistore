@@ -24,9 +24,19 @@ export class UsersService {
     console.log(apiKey, dbName);
     if (params) {
       const { limit = 5, offset = 0 } = params;
-      return this.userModel.find().skip(offset).limit(limit).exec();
+      return this.userModel
+        .find()
+        .populate('products')
+        .populate({ path: 'products', populate: 'brand' })
+        .skip(offset)
+        .limit(limit)
+        .exec();
     }
-    return await this.userModel.find().exec();
+    return await this.userModel
+      .find()
+      .populate('products')
+      .populate({ path: 'products', populate: 'brand' })
+      .exec();
   }
 
   async findOne(id: string) {
