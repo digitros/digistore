@@ -11,7 +11,12 @@ import {
 } from '@nestjs/common';
 
 import { UsersService } from '../services/users.service';
-import { CreateUserDto, FilterUsersDto, UpdateUserDto } from '../dtos/user.dto';
+import {
+  AddProductsToUserDto,
+  CreateUserDto,
+  FilterUsersDto,
+  UpdateUserDto,
+} from '../dtos/user.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { MongoIdPipe } from 'src/common/mongo-id/mongo-id.pipe';
 
@@ -45,8 +50,25 @@ export class UsersController {
     return this.usersService.update(id, payload);
   }
 
+  @Put(':userId/products')
+  addProduct(
+    @Param('userId', MongoIdPipe) userId: string,
+    @Body() payload: AddProductsToUserDto,
+  ) {
+    const { productsIds } = payload;
+    return this.usersService.addProduct(userId, productsIds);
+  }
+
   @Delete(':id')
   remove(@Param('id', MongoIdPipe) id: number) {
     return this.usersService.remove(id);
+  }
+
+  @Delete(':userId/products/:productId')
+  removeProduct(
+    @Param('userId', MongoIdPipe) userId: string,
+    @Param('productId', MongoIdPipe) productId: string,
+  ) {
+    return this.usersService.removeProduct(userId, productId);
   }
 }

@@ -44,3 +44,9 @@ export class FilterUsersDto {
   @Min(0)
   readonly offset: number;
 }
+
+export class AddProductsToUserDto {
+  @IsArray()
+  @IsNotEmpty()
+  readonly productsIds: string[];
+}

@@ -14,7 +14,7 @@ export class User extends Document {
   role: string;
 
   @Prop({ type: [{ type: Types.ObjectId, ref: Product.name }] })
-  products: Types.Array<Product>;
+  products: Types.Array<Product | string>;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

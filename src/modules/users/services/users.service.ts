@@ -1,4 +1,4 @@
-import { FilterUsersDto } from './../dtos/user.dto';
+import { AddProductsToUserDto, FilterUsersDto } from './../dtos/user.dto';
 import { Injectable, NotFoundException, Inject } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
@@ -9,6 +9,7 @@ import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
 import { ProductsService } from './../../products/services/products.service';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { Product } from 'src/modules/products/entities/product.entity';
 
 @Injectable()
 export class UsersService {
@@ -71,6 +72,25 @@ export class UsersService {
     } catch (err) {
       throw new NotFoundException(`User #${id} not found`);
     }
+  }
+
+  async removeProduct(userId: string, productId: string) {
+    const user = await this.userModel.findById(userId);
+    user.products.pull(productId);
+    return await user.save();
+  }
+
+  async addProduct(userId: string, productsIds: string[]) {
+    const user = await this.userModel.findById(userId);
+    if (!user) throw new NotFoundException(`User #${userId} not found`);
+    if (!productsIds)
+      throw new NotFoundException(`Products #${productsIds} not found`);
+    productsIds.forEach((productId) => {
+      if (!user.products.includes(productId)) {
+        user.products.push(productId);
+      }
+    });
+    return await user.save();
   }
 
   async getOrderByUser(id: string) {
