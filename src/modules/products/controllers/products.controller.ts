@@ -16,7 +16,6 @@ import {
   Query,
 } from '@nestjs/common';
 import { ProductsService } from '../services/products.service';
-import { ParseIntPipe } from 'src/common/parse-int/parse-int.pipe';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { MongoIdPipe } from 'src/common/mongo-id/mongo-id.pipe';
 

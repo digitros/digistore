@@ -1,6 +1,16 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Query,
+  SetMetadata,
+  UseGuards,
+} from '@nestjs/common';
 import { AppService } from './app.service';
+import { ApiKeyGuard } from './auth/guards/api-key/api-key.guard';
+import { Public } from './auth/decorators/public.decorator';
 
+@UseGuards(ApiKeyGuard)
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
@@ -15,6 +25,7 @@ export class AppController {
     return 'This is a new endpoint';
   }
 
+  @Public()
   @Get('tasks')
   getTasks() {
     return this.appService.getTasks();
