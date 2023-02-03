@@ -1,15 +1,14 @@
 import { AddProductsToUserDto, FilterUsersDto } from './../dtos/user.dto';
 import { Injectable, NotFoundException, Inject } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import * as bcrypt from 'bcrypt';
 
 import { User } from '../entities/user.entity';
-import { Order } from '../entities/order.entity';
 import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
 
 import { ProductsService } from './../../products/services/products.service';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Product } from 'src/modules/products/entities/product.entity';
 
 @Injectable()
 export class UsersService {
@@ -20,9 +19,6 @@ export class UsersService {
   ) {}
 
   async findAll(params?: FilterUsersDto) {
-    const apiKey = this.configService.get('API_KEY');
-    const dbName = this.configService.get('DATABASE_NAME');
-    console.log(apiKey, dbName);
     if (params) {
       const { limit = 5, offset = 0 } = params;
       return this.userModel
@@ -50,7 +46,15 @@ export class UsersService {
 
   async create(data: CreateUserDto) {
     const newUser = new this.userModel(data);
-    return await newUser.save();
+    const hashPassword = await bcrypt.hash(newUser.password, 10);
+    newUser.password = hashPassword;
+    const user = await newUser.save();
+    const { password, ...result } = user.toObject();
+    return result;
+  }
+
+  async findByEmail(email: string) {
+    return await this.userModel.findOne({ email }).exec();
   }
 
   async update(id: number, changes: UpdateUserDto) {

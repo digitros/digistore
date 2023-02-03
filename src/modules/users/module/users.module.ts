@@ -29,5 +29,6 @@ import { Customer, CustomerSchema } from '../entities/customer.entity';
   ],
   controllers: [UsersController, CustomersController],
   providers: [UsersService, CustomersService],
+  exports: [UsersService],
 })
 export class UsersModule {}
